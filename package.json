@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "test": "jest",
+    "tsc": "tsc --noEmit",
+    "ts-node": "ts-node"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.13",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2"
+  },
+  "type": "module"
+}
