@@ -30,5 +30,5 @@
 
 5. Install the required packages for your virtual environment with the command:
     ```sh
-    pip install requirements.txt
+    pip install -r requirements.txt
     ```
