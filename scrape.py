@@ -9,3 +9,8 @@ def scrape():
     html = requests.get(link).text
     soup = BeautifulSoup(html, 'html.parser')
     print(soup.prettify())
+
+
+# Uncomment this code to see html print
+# if __name__ == "__main__":
+#     scrape()
