@@ -53,12 +53,14 @@ def generateCourseDatabase():
         # May want to create a default file path for the database if we eventually move this file to a different folder
         try:
             with open("database.json", "w") as f:
-                    json.dump(filtered_data, f)
+                json.dump(filtered_data, f)
         except:
-            print(f"{sys.argv[0]} : error: unexpected file write", file=sys.stderr)
+            print(f"{sys.argv[0]} : error: could not generate database", file=sys.stderr)
+            return { "error: could not generate database" }
 
     else:
         print(f"{sys.argv[0]} : error: unable to make API call : response code {res}", file=sys.stderr)
+        return {f"error: unable to make API call : response code {res}" }
 
 
 
