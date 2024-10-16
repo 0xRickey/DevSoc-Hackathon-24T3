@@ -46,6 +46,7 @@ def generateCourseDatabase():
                     "uoc" : course["uoc"],
                     "rating" : 0,
                     "unielectives" : "https://unilectives.devsoc.app/course/" + course["course_code"],
+                    "term_ratings" : [],
                 }
                 for course in data["data"]["courses"]
             ]
