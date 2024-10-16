@@ -12,11 +12,12 @@ def checkValidCourse(courseCode: str) -> bool:
     else:
         return True
 
-# TODO: Fix Regex for extracting the prerequisites
 def extractPrerequisites(htmlString: str) -> list:
-    prerequisiteRegex = r"Prerequisite: [A-Z]{4}[0-9]{4}( or [A-Z]{4}[0-9]{4}| and [A-Z]{4}[0-9]{4})*"
-    print(re.findall(prerequisiteRegex, htmlString))
-    
+    prerequisiteRegex = r"(?<=Prerequisite: )[A-Z]{4}[0-9]{4}(?: or [A-Z]{4}[0-9]{4}| and [A-Z]{4}[0-9]{4})*"
+    prerequisitesList = re.findall(prerequisiteRegex, htmlString)
+    print(prerequisitesList)
+    return prerequisitesList
+
 def scrapePrerequisites(courseCode: str) -> str:
     if (checkValidCourse(courseCode) == False):
         print(f"Invalid course code: {courseCode}")
@@ -31,7 +32,6 @@ def scrapePrerequisites(courseCode: str) -> str:
         print(f"There was an error fetching the HTML for the course: {courseCode}")
     
     extractPrerequisites(htmlString)
-
 
 def main():
     pass
