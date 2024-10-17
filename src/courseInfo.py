@@ -3,13 +3,13 @@
 import sys, json
 from helper import checkValidCourse
 
-def getCourseInfo(courseCodes : list[str]):
+def getCourseInfo(courseCodes : str):
     """
     Gets course info from database
 
     Parameters
     ----------
-    courseCode : list[str]
+    courseCode : str
         List of course codes for any course (e.g. COMP****).
 
     Returns
@@ -28,20 +28,20 @@ def getCourseInfo(courseCodes : list[str]):
     str
         Error string if anything bad goes wrong
     """
-    for codes in courseCodes:
-        if (not checkValidCourse(codes)):
-            print(f"{sys.argv[0]} : error: invalid course code", file=sys.stderr)
-            return { "error: invalid course code" }
+    if (not checkValidCourse(courseCodes)):
+        print(f"{sys.argv[0]} : error: invalid course code", file=sys.stderr)
+        return { "error: invalid course code" }
 
     try:
         with open("database.json", "r") as f:
             courseInfoList = []
             data = json.load(f)
             for courses in data:
-                if (courses["course_code"] in courseCodes):
+                if (courses["course_code"] == courseCodes):
                     courseInfoList.append(courses)
+                    break
 
-            if (len(courseInfoList) != len(courseCodes)):
+            if (len(courseInfoList) == 0):
                 print(f"{sys.argv[0]} : error: course code available or does not exist", file=sys.stderr)
                 return { "error: course code available or does not exist" }
 
@@ -87,4 +87,4 @@ def generateCourses(program_code : str, comepleted_courses : list[str]):
 
 # Uncomment this code to test function
 # if __name__ == "__main__":
-#     print(getCourseInfo({"COMP1511", "COMP2511"}))
+#     print(getCourseInfo("COMP1511"))
