@@ -2,12 +2,17 @@
   text-align: center;
 }
 
+body {
+  background-color: #e2dfd6;
+}
+
 .App-logo {
   height: 40vmin;
+  pointer-events: none;
 }
 
 .App-header {
-  background-color: #afc2e9;
+  background-color: #7f93bb;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -19,8 +24,4 @@
 
 .App-link {
   color: #61dafb;
-}
-
-.container {
-  margin: 50px;
 }
