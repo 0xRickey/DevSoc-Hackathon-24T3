@@ -10,7 +10,8 @@ Course Info
         terms : "Array<String>",
         uoc : "String", // Please convert to int when calculating total uoc :)
         rating : "String", // ^
-        handbook_link: "String"
+        handbook_link: "String",
+        unielectives_link: "String"
     },
 ]
 ```
@@ -46,7 +47,8 @@ Example
                     terms : ["1", "2", "3"],
                     uoc : "6", // Please convert to int when calculating total uoc :)
                     rating : "3.45",
-                    handbook_link: "https://handbook.unsw.edu.au/undergraduate/courses/2025/COMP3121?year=2025"
+                    handbook_link: "https://handbook.unsw.edu.au/undergraduate/courses/2025/COMP3121?year=2025",
+                    unielectives_link: "https://unilectives.devsoc.app/course/COMP3121"
                 }
             ],
 
@@ -59,7 +61,8 @@ Example
                     terms : ["3"],
                     uoc : "6", // Please convert to int when calculating total uoc :)
                     rating : "3.45",
-                    handbook_link: "https://handbook.unsw.edu.au/undergraduate/courses/2025/COMP3431"
+                    handbook_link: "https://handbook.unsw.edu.au/undergraduate/courses/2025/COMP3431",
+                    unielectives_link: "https://unilectives.devsoc.app/course/COMP3431"
                 }
             ],
 
@@ -72,7 +75,8 @@ Example
                     terms : ["1","2"],
                     uoc : "6", // Please convert to int when calculating total uoc :)
                     rating : "3.45",
-                    handbook_link: "https://handbook.unsw.edu.au/undergraduate/courses/2025/COMP3311"
+                    handbook_link: "https://handbook.unsw.edu.au/undergraduate/courses/2025/COMP3311",
+                    unielectives_link: "https://unilectives.devsoc.app/course/COMP3311"
                 }
             ]
         }

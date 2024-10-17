@@ -1,33 +1,14 @@
 #!/usr/bin/env python3
 
 import sys, os, requests, json, time
-
-url = "https://graphql.csesoc.app/v1/graphql"
-
-query = """
-query MyQuery {
-  courses {
-    course_code
-    course_name
-    faculty
-    terms
-    uoc
-    times {
-      day
-      time
-      weeks
-      location
-    }
-  }
-}
-"""
+from constants import API_URL, UNIELECTIVES_URL, QUERY
 
 def generateCourseDatabase():
     if (not checkDatabaseAge()):
         return
 
-    res = requests.post(url, json = {
-        'query': query
+    res = requests.post(API_URL, json = {
+        'query': QUERY
     })
 
     if (res.status_code == 200):
@@ -44,9 +25,8 @@ def generateCourseDatabase():
                     "prereq" : [],
                     "terms" : course["terms"],
                     "uoc" : course["uoc"],
-                    "rating" : 0,
-                    "unielectives" : "https://unilectives.devsoc.app/course/" + course["course_code"],
-                    "term_ratings" : [],
+                    "unielectives" : UNIELECTIVES_URL + course["course_code"],
+                    "handbook_link" : [],
                 }
                 for course in data["data"]["courses"]
             ]
@@ -66,6 +46,9 @@ def generateCourseDatabase():
 
 
 def checkDatabaseAge():
+    if (not os.path.isfile("database.json")):
+        return True
+
     current_time = time.time()
 
     last_modified = os.stat("database.json").st_mtime
@@ -77,5 +60,5 @@ def checkDatabaseAge():
 
 
 # Uncomment this code to test function
-# if __name__ == "__main__":
-#     getCourseInfo()
+if __name__ == "__main__":
+    generateCourseDatabase()
