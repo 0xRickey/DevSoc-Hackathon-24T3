@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import sys, json
+from helper import checkValidCourse
 
 def getCourseInfo(courseCodes : list[str]):
     """
@@ -27,6 +28,11 @@ def getCourseInfo(courseCodes : list[str]):
     str
         Error string if anything bad goes wrong
     """
+    for codes in courseCodes:
+        if (not checkValidCourse(codes)):
+            print(f"{sys.argv[0]} : error: invalid course code", file=sys.stderr)
+            return { "error: invalid course code" }
+
     try:
         with open("database.json", "r") as f:
             courseInfoList = []
@@ -36,8 +42,8 @@ def getCourseInfo(courseCodes : list[str]):
                     courseInfoList.append(courses)
 
             if (len(courseInfoList) != len(courseCodes)):
-                print(f"{sys.argv[0]} : error: couse code is invalid or not available", file=sys.stderr)
-                return { "error: couse code is invalid or not available" }
+                print(f"{sys.argv[0]} : error: course code available or does not exist", file=sys.stderr)
+                return { "error: course code available or does not exist" }
 
             return courseInfoList
 
