@@ -171,4 +171,48 @@ const getSatisfiedPrereqq = (major, term) => {
     return list;
 }
 
-export { getSatisfiedPrereq, getAllCourses, getSatisfiedPrereqq };
+const getCoreCourses = (major) => {
+    const majorInfo = specialisation(major);
+    
+    let coreCourses = majorInfo["core_courses"];
+   
+    let list = [];
+
+    for (const course of coreCourses) {
+        list.push({
+            code: course["course_code"],
+            handbookUrl: course["handbook_link"],
+            rating: course["rating"]
+        });
+    }
+
+    return list;
+};
+
+const getElectiveCourses = (major) => {
+    const majorInfo = specialisation(major);
+
+    let prescribedCourses = majorInfo["prescribed_electives"];
+    let generalElectives = majorInfo["general_electives"];
+    let list = [];
+
+    for (const course of prescribedCourses) {
+        list.push({
+            code: course["course_code"],
+            handbookUrl: course["handbook_link"],
+            rating: course["rating"]
+        });
+    }
+
+    for (const course of generalElectives) {
+        list.push({
+            code: course["course_code"],
+            handbookUrl: course["handbook_link"],
+            rating: course["rating"]
+        });
+    }
+
+    return list;
+};
+
+export { getElectiveCourses, getCoreCourses, getSatisfiedPrereq, getAllCourses, getSatisfiedPrereqq };
