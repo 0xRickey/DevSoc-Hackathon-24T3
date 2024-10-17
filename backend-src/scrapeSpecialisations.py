@@ -18,40 +18,38 @@
 from requests_html import HTMLSession
 from bs4 import BeautifulSoup
 
-def scrapeCoreCourses(url: str):
-    try:
-        session = HTMLSession()
-        response = session.get(url)
-        response.html.render()
-        soup = BeautifulSoup(response.html.html, "html.parser")
-        
-        coreCouresDiv = soup.find('div', class_="css-121k0sr-Box--Box-Box-styled--SAccordionBody e1s7etki11", id="Core Courses")
-        
-        if coreCouresDiv:
-            courseCodeDivs = coreCouresDiv.find_all('div', class_="section1 css-n5lzii-Links--StyledAILinkHeaderSection e1t6s54p6")
-            for div in courseCodeDivs:
-                print(div.text)
-        else:
-            print("Was not able to find the Core Coures")
-    except:
-        print(f"There was an error getting the HTML from {url}")
+def extractCoreCourses(soup: BeautifulSoup) -> list:       
+    coreCouresDiv = soup.find('div', class_="css-121k0sr-Box--Box-Box-styled--SAccordionBody e1s7etki11", id="Core Courses")
+    courseCodesList = []
+    if coreCouresDiv:
+        courseCodeDivs = coreCouresDiv.find_all('div', class_="section1 css-n5lzii-Links--StyledAILinkHeaderSection e1t6s54p6")
+        for div in courseCodeDivs:
+            courseCodesList += div
+        print(courseCodesList)
+    else:
+        print("Was not able to find the Core Coures")
 
-def scrapePrescribedElectives():
+    return courseCodesList
+
+def extractPrescribedElectives():
     pass
 
-def scrapeOtherElectives():
+def extractOtherElectives():
     pass
 
 def main(specialisation: str):
     try:
         specialisationLink = f"https://handbook.unsw.edu.au/undergraduate/specialisations/2025/{specialisation}"
-        coreCourses = scrapeCoreCourses(specialisationLink)
-        # prescribedElectives = blah blah
-        # otherRecommendedElectives = blah blah
-    except:
-        print(f"There was an error getting HTML from ${specialisationLink}")
+        session = HTMLSession()
+        response = session.get(specialisationLink)
+        response.html.render()
+        soup = BeautifulSoup(response.html.html, "html.parser")
 
-    # print(pageAsJsonStr)
+        coreCourses = extractCoreCourses(soup)
+        # prescribedElectives = extractPrescribedElectives(soup)
+        # otherRelatedElectives = extractOtherElectives(soup)
+    except:
+        print(f"There was an error getting HTML from {specialisationLink}")
 
 if __name__ == "__main__":
     main("COMPI1")
