@@ -1,8 +1,11 @@
 import './App.css';
+import CourseRating from './components/CourseRating.js';
+import Logo from './components/Logo.js';
+import Footer from './components/Footer.js';
 import React, { useState } from 'react';
-import { Typography, Autocomplete, TextField, Stack, Button, Box, Container, CircularProgress } from '@mui/material';
+import { CardContent, CardHeader, Card, Typography, Autocomplete, TextField, Stack, Button, Box, Container, CircularProgress } from '@mui/material';
 
-import { getSatisfiedPrereq, getSatisfiedPrereqq , getAllCourses } from './getData/dataFetch.js';
+import { getElectiveCourses, getCoreCourses, getSatisfiedPrereqq , getAllCourses } from './getData/dataFetch.js';
 
 function App() {
   const [selectedDegree, setSelectedDegree] = useState('');
@@ -20,8 +23,30 @@ function App() {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleButtonClick = () => {
+  const fetchData = () => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, 500);
+    });
+  };
+  
+  const handleButtonClick = async () => {
+    setIsLoading(true);
     setIsOpen(true);
+
+     // Simulate data fetching (replace this with your actual fetching logic)
+    try {
+      // Call your data fetching functions here
+      await fetchData(); // Replace this with your actual fetching function
+
+      // You can also set selected courses or other state here based on the fetched data
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      // Handle error accordingly (optional)
+    } finally {
+      setIsLoading(false); // Stop loading after fetching is complete
+    }
 
     // const jsonData = JSON.stringify(selectedMajor, null, 2);
     // const blob = new Blob([jsonData], { type: 'application/json' });
@@ -32,6 +57,8 @@ function App() {
     // link.click();
     // document.body.removeChild(link);
   };
+
+  
 
   const degreeProps = {
     options: degrees.map((option) => option.name),
@@ -47,7 +74,10 @@ function App() {
 
   return (
     <body>
-      <Typography variant="h1" fontWeight="bold" gutterBottom align="center" color="black">Somthing</Typography>
+      <div style={{ textAlign: 'center', margin: '20px 0' }}>
+        <Logo/>
+      </div>
+      <Typography variant="h1" fontWeight="bold" gutterBottom align="center" color="#7f4d3e">CoursEz</Typography>
       <Stack spacing={4}>
         <Autocomplete
           {...degreeProps}
@@ -93,56 +123,146 @@ function App() {
           }}>
         <Button onClick={handleButtonClick} variant="outlined" color="sucess"  disabled={isLoading}>
           {isLoading ? 'Loading...' : 'Fetching Data~'}
+          
         </Button>
-
-
-        {isLoading && <CircularProgress />}
         
-
-
-            </Box>
+        {isLoading && <CircularProgress sx={{ marginLeft: 1 }} />}
+          </Box>
           </Container>
+          <div>
+          {isOpen && (
+            <Box sx={{ display: 'flex', justifyContent: 'space-around', marginTop: 2 }}>
+              {/* Core Courses Card */}
+              <Card sx={{ width: '45%' }}>
+                <CardHeader title="Core Courses" sx={{ backgroundColor: '#a66c5a', color: '#f7f0eb'}} />
+                <CardContent>
+                  {getCoreCourses(selectedMajor, "1").map((item, index) => (
+                    <Box key={index} sx={{ marginBottom: 2}}>
+                      <Typography 
+                        key={index} 
+                        onClick={() => handleClick(item.handbookUrl)} 
+                        style={{ cursor: 'pointer', color: '#7f4d3e' }} 
+                        variant="body1"
+                      >
+                        {item.code}
+                      </Typography>
+                      
+                      <CourseRating value={item.rating || 0} />
+                    </Box>
+              
+                  ))}
+                  
+                </CardContent>
+              </Card>
+
+              {/* Elective Courses Card */}
+              <Card sx={{ width: '45%' }}>
+                <CardHeader title="Elective Courses" sx={{ backgroundColor: '#a66c5a', color: '#f7f0eb'}} />
+                <CardContent>
+                  {getElectiveCourses(selectedMajor, "2").map((item, index) => (
+                    <Box>
+                      <Typography 
+                        key={index} 
+                        onClick={() => handleClick(item.handbookUrl)} 
+                        style={{ cursor: 'pointer', color: '#7f4d3e' }} 
+                        variant="body1"
+                      >
+                        {item.code}
+                      </Typography>
+                      
+                      <CourseRating value={item.rating || 0} />
+                    </Box>
+                    
+                  ))}
+                </CardContent>
+              </Card>
+            </Box>
+          )}
+        </div>
+
           <div >
         
         
           {isOpen && (
-              <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-                <div> 
-                <h2>Term1</h2>
-                {getSatisfiedPrereqq(selectedMajor, "1").map((item, index)=>(
-                //{getSatisfiedPrereq(selectedMajor, "1", selectedCourses).map((item, index)=>(
-                   <p key={index} onClick={() => handleClick(item.handbookUrl)} style={{ cursor: 'pointer', color: 'grey' }}>
-                   {item.code}
-                 </p>
-                ))}
-                </div>
+            <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '20px' }}>
+              
+              {/* Term 1 Card */}
+              <Card sx={{ width: '30%' }}>
+                <CardHeader 
+                  title="Term 1" 
+                  sx={{ 
+                    backgroundColor: '#f9ece3', // Change this color to your desired background color
+                    color: '#7f4d3e' // Change text color if needed
+                  }} 
+                />
+                <CardContent>
+                  {getSatisfiedPrereqq(selectedMajor, "1").map((item, index) => (
+                    <Typography 
+                      key={index} 
+                      onClick={() => handleClick(item.handbookUrl)} 
+                      style={{ cursor: 'pointer', color: '#7f4d3e' }} 
+                      variant="body1"
+                    >
+                      {item.code}
+                    </Typography>
+                  ))}
+                </CardContent>
+              </Card>
 
-                <div> 
-                <h2>Term2</h2>
-                //{getSatisfiedPrereqq(selectedMajor, "2").map((item, index)=>(
-                //{getSatisfiedPrereq(selectedMajor, "2", selectedCourses).map((item, index)=>(
-                   <p key={index} onClick={() => handleClick(item.handbookUrl)} style={{ cursor: 'pointer', color: 'grey' }}>
-                   {item.code}
-                 </p>
-                ))}
-                </div>
+              {/* Term 2 Card */}
+              <Card sx={{ width: '30%' }}>
+                <CardHeader 
+                  title="Term 2" 
+                  sx={{ 
+                    backgroundColor: '#eddbce', // Change this color to your desired background color
+                    color: '#7f4d3e' // Change text color if needed
+                  }} 
+                />
+                <CardContent>
+                  {getSatisfiedPrereqq(selectedMajor, "2").map((item, index) => (
+                    <Typography 
+                      key={index} 
+                      onClick={() => handleClick(item.handbookUrl)} 
+                      style={{ cursor: 'pointer', color: '#7f4d3e' }} 
+                      variant="body1"
+                    >
+                      {item.code}
+                    </Typography>
+                  ))}
+                </CardContent>
+              </Card>
 
-                <div> 
-                <h2>Term3</h2>
-                {getSatisfiedPrereqq(selectedMajor, "3").map((item, index)=>(
-                //{getSatisfiedPrereq(selectedMajor, "3", selectedCourses).map((item, index)=>(
-                   <p key={index} onClick={() => handleClick(item.handbookUrl)} style={{ cursor: 'pointer', color: 'grey' }}>
-                   {item.code}
-                 </p>
-                ))}
-                </div>
-              </div>
+              {/* Term 3 Card */}
+              <Card sx={{ width: '30%' }}>
+                <CardHeader 
+                  title="Term 3" 
+                  sx={{ 
+                    backgroundColor: '#ebd1c0', // Change this color to your desired background color
+                    color: '#7f4d3e' // Change text color if needed
+                  }} 
+                />
+                <CardContent>
+                  {getSatisfiedPrereqq(selectedMajor, "3").map((item, index) => (
+                    <Typography 
+                      key={index} 
+                      onClick={() => handleClick(item.handbookUrl)} 
+                      style={{ cursor: 'pointer', color: '#7f4d3e' }} 
+                      variant="body1"
+                    >
+                      {item.code}
+                    </Typography>
+                  ))}
+                </CardContent>
+              </Card>
+
+            </div>
           )}
+          <Footer />
         </div>
         
       </Stack>
     </body>
-
+    
   );
 }
 

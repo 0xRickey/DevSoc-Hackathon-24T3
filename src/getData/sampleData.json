@@ -10,7 +10,7 @@
                 "prereq": ["COMP1927 or COMP2521", "MATH1081"],
                 "terms": ["1", "2", "3"],
                 "uoc": "6",
-                "rating": "3.45",
+                "rating": "3.5",
                 "handbook_link": "https://handbook.unsw.edu.au/undergraduate/courses/2025/COMP3121?year=2025"
             },
             {
@@ -19,7 +19,7 @@
                 "prereq": ["COMP1927 or COMP2521", "MATH1081"],
                 "terms": ["1", "2", "3"],
                 "uoc": "6",
-                "rating": "3.45",
+                "rating": "3.5",
                 "handbook_link": "https://handbook.unsw.edu.au/undergraduate/courses/2025/COMP3121?year=2025"
             }
         ],
@@ -31,7 +31,7 @@
                 "prereq": ["COMP2521 or COMP1927, and a WAM of at least 70"],
                 "terms": ["3"],
                 "uoc": "6",
-                "rating" : "-infinity",
+                "rating" : "3",
                 "handbook_link": "https://handbook.unsw.edu.au/undergraduate/courses/2025/COMP3431"
             },
             {
@@ -40,7 +40,7 @@
                 "prereq": ["COMP2521 or COMP1927, and a WAM of at least 70"],
                 "terms": ["3"],
                 "uoc": "6",
-                "rating" : "-infinity",
+                "rating" : "3",
                 "handbook_link": "https://handbook.unsw.edu.au/undergraduate/courses/2025/COMP3431"
             }
         ],
@@ -52,7 +52,7 @@
                 "prereq": ["COMP2521 or COMP1927"],
                 "terms": ["1","2"],
                 "uoc": "6",
-                "rating": "3.45",
+                "rating": "2.5",
                 "handbook_link": "https://handbook.unsw.edu.au/undergraduate/courses/2025/COMP3311"
             },
             {
@@ -61,7 +61,7 @@
                 "prereq": ["COMP2521 or COMP1927"],
                 "terms": ["1","2"],
                 "uoc": "6",
-                "rating": "3.45",
+                "rating": "1.5",
                 "handbook_link": "https://handbook.unsw.edu.au/undergraduate/courses/2025/COMP3311"
             }
         ]
@@ -77,7 +77,7 @@
                 "prereq": ["COMP1927 or COMP2521", "MATHS1081"],
                 "terms": ["1", "2", "3"],
                 "uoc": "6",
-                "rating": "3.45",
+                "rating": "4",
                 "handbook_link": "https://handbook.unsw.edu.au/undergraduate/courses/2025/COMP3121?year=2025"
             },
             {
@@ -86,7 +86,7 @@
                 "prereq": ["COMP1927 or COMP2521", "MATHS1081"],
                 "terms": ["1", "2", "3"],
                 "uoc": "6",
-                "rating": "3.45",
+                "rating": "2",
                 "handbook_link": "https://handbook.unsw.edu.au/undergraduate/courses/2025/COMP3121?year=2025"
             }
         ],
@@ -98,7 +98,7 @@
                 "prereq": ["COMP2521 or COMP1927, and a WAM of at least 70"],
                 "terms": ["3"],
                 "uoc": "6",
-                "rating" : "-infinity",
+                "rating" : "3",
                 "handbook_link": "https://handbook.unsw.edu.au/undergraduate/courses/2025/COMP3431"
             },
             {
@@ -107,7 +107,7 @@
                 "prereq": ["COMP2521 or COMP1927, and a WAM of at least 70"],
                 "terms": ["3"],
                 "uoc": "6",
-                "rating" : "-infinity",
+                "rating" : "3",
                 "handbook_link": "https://handbook.unsw.edu.au/undergraduate/courses/2025/COMP3431"
             }
         ],
