@@ -19,9 +19,7 @@ function CourseRating({ score }) {
                 precision={0.5}
                 emptyIcon={<StarIcon sytle={{ opacity: 0.55}} fontSize="inherit"/>}
             />
-            <Box
-                sx={{ ml: 2}}>{labels[Math.ceil(score)] || 'No Rating'}
-            </Box>
+            <Box sx={{ ml: 4 }}>{labels[Math.ceil(score)] || 'No Rating'}</Box>
         </Box>
     );
 }

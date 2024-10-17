@@ -137,17 +137,17 @@ function App() {
                 <CardHeader title="Core Courses" sx={{ backgroundColor: '#a66c5a', color: '#f7f0eb'}} />
                 <CardContent>
                   {getCoreCourses(selectedMajor, "1").map((item, index) => (
-                    <Box key={index} sx={{ marginBottom: 2}}>
+                    <Box key={index} sx={{ display: 'flex', alignItems: 'center', marginBottom: 2 }}>
                       <Typography 
                         key={index} 
                         onClick={() => handleClick(item.handbookUrl)} 
-                        style={{ cursor: 'pointer', color: '#7f4d3e' }} 
+                        style={{ cursor: 'pointer', color: '#7f4d3e', marginRight: 40 }} 
                         variant="body1"
                       >
                         {item.code}
                       </Typography>
                       
-                      <CourseRating value={item.rating || 0} />
+                      <CourseRating score={item.rating || 0} />
                     </Box>
               
                   ))}
@@ -157,22 +157,20 @@ function App() {
 
               {/* Elective Courses Card */}
               <Card sx={{ width: '45%' }}>
-                <CardHeader title="Elective Courses" sx={{ backgroundColor: '#a66c5a', color: '#f7f0eb'}} />
+                <CardHeader title="Elective Courses" sx={{ backgroundColor: '#a66c5a', color: '#f7f0eb' }} />
                 <CardContent>
                   {getElectiveCourses(selectedMajor, "2").map((item, index) => (
-                    <Box>
+                    <Box key={index} sx={{ display: 'flex', alignItems: 'center', marginBottom: 2 }}>
                       <Typography 
-                        key={index} 
                         onClick={() => handleClick(item.handbookUrl)} 
-                        style={{ cursor: 'pointer', color: '#7f4d3e' }} 
+                        style={{ cursor: 'pointer', color: '#7f4d3e', marginRight: 40 }} 
                         variant="body1"
                       >
                         {item.code}
                       </Typography>
                       
-                      <CourseRating value={item.rating || 0} />
+                      <CourseRating score={item.rating || 0} />
                     </Box>
-                    
                   ))}
                 </CardContent>
               </Card>
