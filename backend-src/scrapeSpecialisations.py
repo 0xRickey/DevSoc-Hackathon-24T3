@@ -24,11 +24,15 @@ def scrapeCoreCourses(url: str):
         response = session.get(url)
         response.html.render()
         soup = BeautifulSoup(response.html.html, "html.parser")
-        coreCourses = []
-        for div in soup.find_all('div', class_="section1 css-n5lzii-Links--StyledAILinkHeaderSection e1t6s54p6"):
-            coreCourses += div
-
-        print(coreCourses)
+        
+        coreCouresDiv = soup.find('div', class_="css-121k0sr-Box--Box-Box-styled--SAccordionBody e1s7etki11", id="Core Courses")
+        
+        if coreCouresDiv:
+            courseCodeDivs = coreCouresDiv.find_all('div', class_="section1 css-n5lzii-Links--StyledAILinkHeaderSection e1t6s54p6")
+            for div in courseCodeDivs:
+                print(div.text)
+        else:
+            print("Was not able to find the Core Coures")
     except:
         print(f"There was an error getting the HTML from {url}")
 
