@@ -5,13 +5,7 @@ import re
 import json
 import requests
 from bs4 import BeautifulSoup
-
-def checkValidCourse(courseCode: str) -> bool:
-    courseCodeRegex = r"[A-Z]{4}[0-9]{4}"
-    if (re.fullmatch(courseCodeRegex, courseCode) == None):
-        return False
-    else:
-        return True
+from helper import checkValidCourse
 
 def extractPrerequisites(soup: BeautifulSoup) -> list:
     jsonString = soup.find("script", id="__NEXT_DATA__", type="application/json").text
