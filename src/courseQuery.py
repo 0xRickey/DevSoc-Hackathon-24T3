@@ -1,33 +1,14 @@
 #!/usr/bin/env python3
 
 import sys, os, requests, json, time
-
-url = "https://graphql.csesoc.app/v1/graphql"
-
-query = """
-query MyQuery {
-  courses {
-    course_code
-    course_name
-    faculty
-    terms
-    uoc
-    times {
-      day
-      time
-      weeks
-      location
-    }
-  }
-}
-"""
+from constants import API_URL, UNIELECTIVES_URL, QUERY
 
 def generateCourseDatabase():
     if (not checkDatabaseAge()):
         return
 
-    res = requests.post(url, json = {
-        'query': query
+    res = requests.post(API_URL, json = {
+        'query': QUERY
     })
 
     if (res.status_code == 200):
@@ -45,8 +26,9 @@ def generateCourseDatabase():
                     "terms" : course["terms"],
                     "uoc" : course["uoc"],
                     "rating" : 0,
-                    "unielectives" : "https://unilectives.devsoc.app/course/" + course["course_code"],
+                    "unielectives" : UNIELECTIVES_URL + course["course_code"],
                     "term_ratings" : [],
+                    "handbook_link" : [],
                 }
                 for course in data["data"]["courses"]
             ]
