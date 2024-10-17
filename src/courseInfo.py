@@ -2,6 +2,8 @@
 
 import sys, json
 from helper import checkValidCourse
+from scrapeRating import scrapeRating
+
 
 def getCourseInfo(courseCodes : str):
     """
@@ -38,6 +40,7 @@ def getCourseInfo(courseCodes : str):
             data = json.load(f)
             for courses in data:
                 if (courses["course_code"] == courseCodes):
+                    courses["rating"] = scrapeRating(courses["course_code"])
                     courseInfoList.append(courses)
                     break
 
@@ -86,5 +89,5 @@ def generateCourses(program_code : str, comepleted_courses : list[str]):
 
 
 # Uncomment this code to test function
-# if __name__ == "__main__":
-#     print(getCourseInfo("COMP1511"))
+if __name__ == "__main__":
+    print(getCourseInfo("COMP1511"))

@@ -25,9 +25,7 @@ def generateCourseDatabase():
                     "prereq" : [],
                     "terms" : course["terms"],
                     "uoc" : course["uoc"],
-                    "rating" : 0,
                     "unielectives" : UNIELECTIVES_URL + course["course_code"],
-                    "term_ratings" : [],
                     "handbook_link" : [],
                 }
                 for course in data["data"]["courses"]
@@ -48,6 +46,9 @@ def generateCourseDatabase():
 
 
 def checkDatabaseAge():
+    if (not os.path.isfile("database.json")):
+        return True
+
     current_time = time.time()
 
     last_modified = os.stat("database.json").st_mtime
@@ -59,5 +60,5 @@ def checkDatabaseAge():
 
 
 # Uncomment this code to test function
-# if __name__ == "__main__":
-#     getCourseInfo()
+if __name__ == "__main__":
+    generateCourseDatabase()
