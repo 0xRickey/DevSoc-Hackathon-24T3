@@ -22,7 +22,7 @@ def generateCourseDatabase():
                 {
                     "course_code" : course["course_code"],
                     "course_name" : course["course_name"],
-                    "prereq" : [],
+                    "prereq" : "",
                     "terms" : course["terms"],
                     "uoc" : course["uoc"],
                     "unielectives" : UNIELECTIVES_URL + course["course_code"],

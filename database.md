@@ -6,7 +6,7 @@ Course Info
     {
         course_code : "String",
         course_name : "String",
-        prereq : "Array<String>",
+        prereq : "String",
         terms : "Array<String>",
         uoc : "String",
         rating : "String", // Display rating as this
