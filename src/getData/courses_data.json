@@ -1,0 +1,15 @@
+{
+    "data": [
+        {
+            "course_code" : "String",
+            "course_name" : "String",
+            "prereq" : "String",
+            "terms" : "Array<String>",
+            "uoc" : "String",
+            "rating" : "String",
+            "wilson_rating" : "String",
+            "handbook_link": "String",
+            "unielectives_link": "String"
+        }
+    ]
+}
