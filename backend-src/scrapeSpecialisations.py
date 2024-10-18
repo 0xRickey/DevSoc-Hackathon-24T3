@@ -5,9 +5,10 @@
 # 3. use beautiful soup to access the html dom and extract course codes for each category of courses
 # 4. Put the extracted course codes into their own lists by category
 
-import re
+import re, time
 from requests_html import HTMLSession
 from bs4 import BeautifulSoup
+# from constants import COMP_SPECIALISATIONS
 
 def extractCoreCourses(soup: BeautifulSoup) -> list:
     # 1. find the three main divs that contain all the courses within them
@@ -35,6 +36,9 @@ def extractCoreCourses(soup: BeautifulSoup) -> list:
 def extractDisciplineElectives(soup: BeautifulSoup) -> list:
     # 1. find the three main divs that contain all the courses within them
     coursesDivs = soup.find_all('div', class_="AccordionItem css-3m2r4d-Box--Box-Box-Card--CardBody e12hqxty1")
+
+    if len(coursesDivs) < 3:
+        return []
     
     # 2. Get the div with "Prescribed Electives" or "Discipline Electives" as its text
     disciplineElectivesDiv = None
@@ -42,9 +46,11 @@ def extractDisciplineElectives(soup: BeautifulSoup) -> list:
         divText = div.find('strong').text
         if "Discipline Electives" in divText:
             disciplineElectivesDiv = div
+            break
         
         elif "Prescribed Electives" in divText:
             disciplineElectivesDiv = div
+            break
 
     # 3. Extract all prescribed courses
     disciplineElectivesCodes = []
@@ -94,15 +100,15 @@ def extractDegreeName(soup: BeautifulSoup) -> str:
     
 
 def extractSpecialisationName(soup: BeautifulSoup) -> str:
-    courseName = soup.find(
+    specialisationName = soup.find(
         'h2',
         class_="css-g23dyo-styled--StyledHeading-ComponentHeading--ComponentHeading-styled--StyledHeading e1ixoanv9"
     ).text
 
-    if re.search(r"\([a-zA-Z ]+\)", courseName):
-        courseName = re.search(r"(?<=\()[a-zA-Z ]+)(?=\))", courseName).group()
+    if re.search(r"\([a-zA-Z ]+\)", specialisationName):
+        specialisationName = re.search(r"(?<=\()[a-zA-Z ]+(?=\))", specialisationName).group()
 
-    return courseName
+    return specialisationName
 
 def scrapeSpecialisation(specialisation: str):
     try:
@@ -129,4 +135,9 @@ def scrapeSpecialisation(specialisation: str):
         print(f"There was an error getting HTML from {specialisationLink}")
 
 if __name__ == "__main__":
+    # for code in COMP_SPECIALISATIONS:
+    #     print(f"Program Code: {code}")
+    #     scrapeSpecialisation(code)
+    #     print("")
+    #     time.sleep(5)
     pass
