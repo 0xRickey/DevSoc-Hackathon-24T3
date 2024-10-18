@@ -18,20 +18,30 @@
 from requests_html import HTMLSession
 from bs4 import BeautifulSoup
 
-def extractCoreCourses(soup: BeautifulSoup) -> list:       
-    coreCouresDiv = soup.find('div', class_="css-121k0sr-Box--Box-Box-styled--SAccordionBody e1s7etki11", id="Core Courses")
-    courseCodesList = []
-    if coreCouresDiv:
-        courseCodeDivs = coreCouresDiv.find_all('div', class_="section1 css-n5lzii-Links--StyledAILinkHeaderSection e1t6s54p6")
-        for div in courseCodeDivs:
-            courseCodesList += div
-        print(courseCodesList)
-    else:
-        print("Was not able to find the Core Coures")
+def extractCoreCourses(soup: BeautifulSoup) -> list:
+    # 1. find the three main divs that contain all the courses within them
+    coursesDivs = soup.find_all('div', class_="AccordionItem css-3m2r4d-Box--Box-Box-Card--CardBody e12hqxty1")
+    
+    # 2. find the div with "Core Courses" as its text
+    coreCoursesDiv = None
+    for div in coursesDivs:
+        divText = div.find('strong').text
+        if divText == "Core Courses":
+            coreCoursesDiv = div
 
-    return courseCodesList
+    # 3. Extract all core courses and extract all the "one of the following" ones too
+    coreCourseCodes = []
+    divTypeA = "section1 css-n5lzii-Links--StyledAILinkHeaderSection e1t6s54p6"
+    for div in coreCoursesDiv.find_all('div', class_=divTypeA):
+        coreCourseCodes.append(div.text)
 
-def extractPrescribedElectives():
+    divTypeB = "StyledAILinkHeaderSection__content1 css-1nnc03b-Links--StyledAILinkHeaderSection e1t6s54p6"
+    for div in coreCoursesDiv.find_all('div', class_=divTypeB):
+        coreCourseCodes.append(div.text)
+
+    return coreCourseCodes
+
+def extractPrescribedElectives(soup: BeautifulSoup) -> list:
     pass
 
 def extractOtherElectives():
