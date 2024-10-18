@@ -1,27 +1,15 @@
 #!/usr/bin/env python3
 
-import sys, requests, re
+import sys, requests, re, math
 from bs4 import BeautifulSoup
 from helper import checkValidCourse
 from constants import UNIELECTIVES_URL
-import math
 
 regex = r"overallRating\\\":[0-9]"
 
-def wilson_lower_bound(pos, n):
-    if n == 0:
-        return n
-
-    z = 1.96
-    phat =  float(pos) / n
-
-    return (phat + z*z/(2*n) - z * math.sqrt((phat*(1-phat)+z*z/(4*n))/n))/(1+z*z/n)
-
-
 def scrapeRating(courseCode: str) -> int:
-    if (not checkValidCourse(courseCode)):
-        print(f"Invalid course code: {courseCode}")
-        return
+    if (not checkValidCourse(courseCode) or "COMP" not in courseCode):
+        return 0
 
     try:
         html = requests.get(UNIELECTIVES_URL + courseCode)
@@ -30,32 +18,30 @@ def scrapeRating(courseCode: str) -> int:
 
     except:
         print({f"error : could not fetch the HTML for the course: {courseCode}"}, file=sys.stderr)
-        return {f"error : could not fetch the HTML for the course: {courseCode}"}
+        return 0
 
 
-def extractRating(soup: BeautifulSoup) -> int:
-    soup_string = convertToString(soup.find("body").find_all("script")[-1])
-    ratings = re.findall(regex, soup_string)
+def extractRating( soup: BeautifulSoup) -> int:
+    scripts = soup.select('script')
+    target_script = [script for script in scripts if "overallRating" in script.text]
+
     recommended = 0
     sum_rating = 0
-    for rating in ratings:
-        int_rating = int(re.sub(r".*([0-9])", r"\1", rating))
-        sum_rating += int_rating
-        if int_rating >= 3:
-            recommended +=1
-    return {
-        "rating" : float(sum_rating) / len(ratings),
-        "wilson_rating" : wilson_lower_bound(recommended, len(ratings))
-    }
 
+    rating_list = re.findall(regex, str(target_script))
 
-def convertToString(soup_tag) -> str:
-    new_string = ""
-    for tag in soup_tag:
-        for char in tag:
-            new_string += char
-    return new_string
+    if len(rating_list) == 0:
+        return 0
+
+    for rating_string in rating_list:
+        rating = int(re.sub(r".*([0-9])", r"\1", rating_string))
+
+        sum_rating += rating
+
+        if rating >= 3:
+            recommended += 1
+
+    return round((sum_rating) / len(rating_list), 1)
 
 if __name__ == "__main__":
-    print(scrapeRating("CRIM3020"))
-
+    print(scrapeRating("COMP1511"))

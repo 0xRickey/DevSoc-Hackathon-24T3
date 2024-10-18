@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
-import sys, os, requests, json, time
+import sys, os, requests, json, time, re
+from bs4 import BeautifulSoup
 from constants import API_URL, UNIELECTIVES_URL, QUERY
+from scrapeRating import scrapeRating
 
 def generateCourseDatabase():
     if (not checkDatabaseAge()):
@@ -17,7 +19,6 @@ def generateCourseDatabase():
 
         data = res.json()
 
-
         filtered_data = [
                 {
                     "course_code" : course["course_code"],
@@ -27,11 +28,11 @@ def generateCourseDatabase():
                     "uoc" : course["uoc"],
                     "unielectives" : UNIELECTIVES_URL + course["course_code"],
                     "handbook_link" : f"https://www.handbook.unsw.edu.au/undergraduate/courses/2025/{course['course_code']}?year=2025",
+                    "rating" : scrapeRating(course["course_code"])
                 }
                 for course in data["data"]["courses"]
             ]
 
-        # May want to create a default file path for the database if we eventually move this file to a different folder
         try:
             with open("database.json", "w") as f:
                 json.dump(filtered_data, f)

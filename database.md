@@ -9,8 +9,7 @@ Course Info
         prereq : "String",
         terms : "Array<String>",
         uoc : "String",
-        rating : "String", // Display rating as this
-        wilson_rating : "String", // Sort recommended courses by this
+        rating : "String",
         handbook_link: "String",
         unielectives_link: "String"
     },
