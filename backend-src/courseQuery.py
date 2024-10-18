@@ -22,11 +22,11 @@ def generateCourseDatabase():
                 {
                     "course_code" : course["course_code"],
                     "course_name" : course["course_name"],
-                    "prereq" : [],
+                    "prereq" : "",
                     "terms" : course["terms"],
                     "uoc" : course["uoc"],
                     "unielectives" : UNIELECTIVES_URL + course["course_code"],
-                    "handbook_link" : [],
+                    "handbook_link" : f"https://www.handbook.unsw.edu.au/undergraduate/courses/2025/{course['course_code']}?year=2025",
                 }
                 for course in data["data"]["courses"]
             ]

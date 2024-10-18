@@ -37,12 +37,16 @@ def extractRating(soup: BeautifulSoup) -> int:
     soup_string = convertToString(soup.find("body").find_all("script")[-1])
     ratings = re.findall(regex, soup_string)
     recommended = 0
+    sum_rating = 0
     for rating in ratings:
         int_rating = int(re.sub(r".*([0-9])", r"\1", rating))
+        sum_rating += int_rating
         if int_rating >= 3:
             recommended +=1
-
-    return wilson_lower_bound(recommended, len(ratings))
+    return {
+        "rating" : float(sum_rating) / len(ratings),
+        "wilson_rating" : wilson_lower_bound(recommended, len(ratings))
+    }
 
 
 def convertToString(soup_tag) -> str:
@@ -52,6 +56,6 @@ def convertToString(soup_tag) -> str:
             new_string += char
     return new_string
 
-# if __name__ == "__main__":
-#     print(scrapeRating("CRIM3020"))
+if __name__ == "__main__":
+    print(scrapeRating("CRIM3020"))
 
