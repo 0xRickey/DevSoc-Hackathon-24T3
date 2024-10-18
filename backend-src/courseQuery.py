@@ -3,7 +3,7 @@
 import sys, os, requests, json, time, re
 from constants import API_URL, UNIELECTIVES_URL, QUERY, DATABASE_PATH
 from scrapeRating import scrapeRating
-
+from helper import extractTerms
 
 def generateCourseDatabase():
     os.chdir(os.path.dirname(__file__))
@@ -25,7 +25,7 @@ def generateCourseDatabase():
                     "course_code" : course["course_code"],
                     "course_name" : course["course_name"],
                     "prereq" : "",
-                    "terms" : course["terms"],
+                    "terms" : extractTerms(course["terms"]),
                     "uoc" : course["uoc"],
                     "unielectives" : UNIELECTIVES_URL + course["course_code"],
                     "handbook_link" : f"https://www.handbook.unsw.edu.au/undergraduate/courses/2025/{course['course_code']}?year=2025",
