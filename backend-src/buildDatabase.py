@@ -27,25 +27,28 @@ def buildDatabase(specialisations: list) -> dict:
 
         for courseCode in tempSpecDict['core_course_codes']:
             courseInfo = retrieveCourseInfo(courseCode=courseCode)
-            newSpecialisationEntry['core_courses'].append(courseInfo)
+            if courseInfo != None:
+                newSpecialisationEntry['core_courses'].append(courseInfo)
         
         for courseCode in tempSpecDict['prescribed_electives_codes']:
             courseInfo = retrieveCourseInfo(courseCode=courseCode)
-            newSpecialisationEntry['prescribed_electives'].append(courseInfo)
+            if courseInfo != None:
+                newSpecialisationEntry['prescribed_electives'].append(courseInfo)
 
         for courseCode in tempSpecDict['general_electives_codes']:
             courseInfo = retrieveCourseInfo(courseCode=courseCode)
-            newSpecialisationEntry['general_electives_codes'].append(courseInfo)
+            if courseInfo != None:
+                newSpecialisationEntry['general_electives'].append(courseInfo)
 
         try:
-            specialisationDbJsonFile = open('src/getData/specialisation_data.json', 'r')
-            specialisationsDb = json.loads(specialisationDbJsonFile)
-            specialisationDbJsonFile.close()
-
+            specialisationsDb = None
+            with open('src/getData/specialisation_data.json', 'r') as specialisationDbJsonFile:
+                specialisationsDb = json.load(specialisationDbJsonFile)
+            
             specialisationsDb['data'].append(newSpecialisationEntry)
             
             with open('src/getData/specialisation_data.json', 'w') as specialisationDbJsonFile:
-                json.dump(specialisationsDb, specialisationDbJsonFile)
+                json.dump(specialisationsDb, specialisationDbJsonFile, indent=4)
 
         except json.JSONDecodeError as err:
             print(f"There a JSONDecodeErorr: {err}")
