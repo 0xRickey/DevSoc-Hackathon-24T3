@@ -1,5 +1,5 @@
 //import data from './sampleData.json' assert { type: 'json' };
-import data from './sampleData.json';
+import data from './specialisation_data.json';
 
 const dataBase = data["data"];
 

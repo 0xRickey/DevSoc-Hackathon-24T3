@@ -1,20 +1,11 @@
 #!/usr/bin/env python3
 
 # 1. Request html from webpage
-# 2. Take page content json and turn it into a json object
-# 3. Take json object and turn it into a json string
-# 4. Use regex to extract the course codes of the:
-#       a. core courses
-#       b. discipline / prescribed courses
-#       a. other related courses
-# 5. Put the extracted course codes into their own lists by category
-# 6. Load courses.json
-# 7. use the lists extracted from the HTML to create the:
-#       a. core_courses
-#       a. prescribed_electives
-#       a. general_electives
-# arrays in the degrees.json file.
+# 2. use requests_html to render the html
+# 3. use beautiful soup to access the html dom and extract course codes for each category of courses
+# 4. Put the extracted course codes into their own lists by category
 
+import re
 from requests_html import HTMLSession
 from bs4 import BeautifulSoup
 
@@ -90,9 +81,32 @@ def extractOtherElectives(soup: BeautifulSoup):
 
     return otherElectivesCourseCodes
 
-def main(specialisation: str):
+def extractDegreeName(soup: BeautifulSoup) -> str:
+    degreeName = soup.find(
+        'h2',
+        class_="css-g23dyo-styled--StyledHeading-ComponentHeading--ComponentHeading-styled--StyledHeading e1ixoanv9"
+    ).text
+
+    if re.search(r"\([a-zA-Z ]+\)", degreeName) != None:
+        degreeName = re.search(r"[a-zA-Z ]+(?=\([a-zA-Z ]+\))", degreeName).group()
+
+    return degreeName
+    
+
+def extractSpecialisationName(soup: BeautifulSoup) -> str:
+    courseName = soup.find(
+        'h2',
+        class_="css-g23dyo-styled--StyledHeading-ComponentHeading--ComponentHeading-styled--StyledHeading e1ixoanv9"
+    ).text
+
+    if re.search(r"\([a-zA-Z ]+\)", courseName):
+        courseName = re.search(r"(?<=\()[a-zA-Z ]+)(?=\))", courseName).group()
+
+    return courseName
+
+def scrapeSpecialisation(specialisation: str):
     try:
-        specialisationLink = f"https://handbook.unsw.edu.au/undergraduate/specialisations/2025/{specialisation}"
+        specialisationLink = f"https://handbook.unsw.edu.au/undergraduate/specialisations/2025/{specialisation}?year=2025"
         session = HTMLSession()
         response = session.get(specialisationLink)
         response.html.render()
@@ -101,12 +115,18 @@ def main(specialisation: str):
         coreCourses = extractCoreCourses(soup)
         prescribedElectives = extractDisciplineElectives(soup)
         otherRelatedElectives = extractOtherElectives(soup)
+        degreeName = extractDegreeName(soup)
+        specialisationName = extractSpecialisationName(soup)
+
+        return {
+            "Degree": degreeName,
+            "specialisation": specialisationName,
+            "core_course_codes" : coreCourses,
+            "prescribed_electives_codes" : prescribedElectives,
+            "general_electives_codes" : otherRelatedElectives
+        }
     except:
         print(f"There was an error getting HTML from {specialisationLink}")
-    
-    print(coreCourses)
-    print(prescribedElectives)
-    print(otherRelatedElectives)
 
 if __name__ == "__main__":
-    main("COMPD1")
+    pass
