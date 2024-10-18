@@ -17,3 +17,5 @@ query MyQuery {
 """
 
 COMP_SPECIALISATIONS = ["COMPA1", "COMPD1", "COMPI1", "COMPJ1", "COMPN1", "COMPS1", "COMPY1"]
+
+DATABASE_PATH =  "../src/getData/courses_data.json"

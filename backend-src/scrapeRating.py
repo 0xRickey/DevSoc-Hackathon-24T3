@@ -8,7 +8,7 @@ from constants import UNIELECTIVES_URL
 regex = r"overallRating\\\":[0-9]"
 
 def scrapeRating(courseCode: str) -> int:
-    if (not checkValidCourse(courseCode) or "COMP" not in courseCode):
+    if (not checkValidCourse(courseCode)):
         return 0
 
     try:
