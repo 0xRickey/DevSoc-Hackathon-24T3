@@ -42,7 +42,30 @@ def extractCoreCourses(soup: BeautifulSoup) -> list:
     return coreCourseCodes
 
 def extractPrescribedElectives(soup: BeautifulSoup) -> list:
-    pass
+    # 1. find the three main divs that contain all the courses within them
+    coursesDivs = soup.find_all('div', class_="AccordionItem css-3m2r4d-Box--Box-Box-Card--CardBody e12hqxty1")
+    
+    # 2. Get the div with "Prescribed Electives" or "Discipline Electives" as its text
+    disciplineElectivesDiv = None
+    for div in coursesDivs:
+        divText = div.find('strong').text
+        if "Discipline Electives" in divText:
+            disciplineElectivesDiv = div
+        
+        elif "Prescribed Electives" in divText:
+            disciplineElectivesDiv = div
+
+    # 3. Extract all core courses and extract all the "one of the following" ones too
+    disciplineElectivesCodes = []
+    divTypeA = "section1 css-n5lzii-Links--StyledAILinkHeaderSection e1t6s54p6"
+    for div in disciplineElectivesDiv.find_all('div', class_=divTypeA):
+        disciplineElectivesCodes.append(div.text)
+
+    divTypeB = "StyledAILinkHeaderSection__content1 css-1nnc03b-Links--StyledAILinkHeaderSection e1t6s54p6"
+    for div in disciplineElectivesDiv.find_all('div', class_=divTypeB):
+        disciplineElectivesCodes.append(div.text)
+
+    return disciplineElectivesCodes
 
 def extractOtherElectives():
     pass
@@ -56,7 +79,7 @@ def main(specialisation: str):
         soup = BeautifulSoup(response.html.html, "html.parser")
 
         coreCourses = extractCoreCourses(soup)
-        # prescribedElectives = extractPrescribedElectives(soup)
+        prescribedElectives = extractPrescribedElectives(soup)
         # otherRelatedElectives = extractOtherElectives(soup)
     except:
         print(f"There was an error getting HTML from {specialisationLink}")
