@@ -1,2 +1,4 @@
 .venv/
-database.json
+.venv/*
+node_modules/
+**/__pycache__/
