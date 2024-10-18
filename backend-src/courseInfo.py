@@ -36,19 +36,17 @@ def getCourseInfo(courseCodes : str):
 
     try:
         with open("database.json", "r") as f:
-            courseInfoList = []
             data = json.load(f)
             for courses in data:
                 if (courses["course_code"] == courseCodes):
-                    courses["rating"] = scrapeRating(courses["course_code"])
-                    courseInfoList.append(courses)
-                    break
+                    ratings = scrapeRating(courses["course_code"])
+                    courses["rating"] = ratings["rating"]
+                    courses["wilson_rating"] = ratings["wilson_rating"]
+                    return courses
 
-            if (len(courseInfoList) == 0):
-                print(f"{sys.argv[0]} : error: course code available or does not exist", file=sys.stderr)
-                return { "error: course code available or does not exist" }
+            print(f"{sys.argv[0]} : error: course code available or does not exist", file=sys.stderr)
+            return { "error: course code available or does not exist" }
 
-            return courseInfoList
 
     except:
         print(f"{sys.argv[0]} : error: database unavailable", file=sys.stderr)
