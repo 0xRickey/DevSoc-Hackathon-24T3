@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
-import sys, json
+import sys, json, os
 from helper import checkValidCourse
+from constants import DATABASE_PATH
 
 def getCourseInfo(courseCodes : str):
     """
@@ -31,11 +32,11 @@ def getCourseInfo(courseCodes : str):
     if (not checkValidCourse(courseCodes)):
         print(f"{sys.argv[0]} : error: invalid course code", file=sys.stderr)
         return { "error: invalid course code" }
-
+    os.chdir(os.path.dirname(__file__))
     try:
-        with open("database.json", "r") as f:
+        with open(DATABASE_PATH, "r") as f:
             data = json.load(f)
-            for courses in data:
+            for courses in data["data"]:
                 if (courses["course_code"] == courseCodes):
                     return courses
 
