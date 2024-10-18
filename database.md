@@ -8,8 +8,9 @@ Course Info
         course_name : "String",
         prereq : "Array<String>",
         terms : "Array<String>",
-        uoc : "String", // Please convert to int when calculating total uoc :)
-        rating : "String", // ^
+        uoc : "String",
+        rating : "String", // Display rating as this
+        wilson_rating : "String", // Sort recommended courses by this
         handbook_link: "String",
         unielectives_link: "String"
     },
