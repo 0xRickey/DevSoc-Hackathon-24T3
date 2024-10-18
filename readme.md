@@ -25,10 +25,22 @@
 
     After running the following command, your terminal will be appended with "(.venv)" to indicate that you have successfully created a new virtual environment. For example:
     ```sh
-    (.venv) rickey@device_name:~/path/to/repo
+    (.venv) user@device_name:~/path/to/repo
     ```
 
 5. Install the required packages for your virtual environment with the command:
     ```sh
     pip install -r requirements.txt
     ```
+    If the `requests_html` library installation is giving you issues. You may have to install it separately with:
+   ```
+   pip install requests_html
+   ```
+   This library also depends on another library that is a bit finnicky and also requires its own installation command:
+   ```
+   pip install lxml-html-clean
+   ```
+   Do note that the first time you run a script that uses `requests_html` it may install Chromium into your local development environment.
+# Running the frontend
+If you want to get the frontend up and see what the code is doing, you should first run `npm install` to get all the required node modules and then after everything is done installing you can run `npm start` to start a localhost server for the frontend.
+
